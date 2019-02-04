@@ -4,16 +4,28 @@ Sub RetrieveWordTableItems()
 	Dim oCell As Cell
 	Dim sCellText As String
 	Dim II
+	
+	
 	'---  error handler
    	On Error GoTo ErrorHandler
+	
+	Set oxlApp = CreateObject("Excel.Application")
+	'---- specify the location of the excel file
+	FN = "...\tables.xlsx"
+
+        Set oxlWbk = oxlApp.Workbooks.Open(FileName:=FN) ' Open the Workbook
 
 
 
 
+	excelRow = 0
 	count_tbl = ActiveDocument.Tables.Count
 	'--- loop through all the tables in the Word document
 	II = 1
 	For II = 1 To count_tbl
+		
+		excelRow = excelRow + 1
+   		excelCell = 0
 
 
 		'---- go through each row in the table.
@@ -25,11 +37,15 @@ Sub RetrieveWordTableItems()
                   		sCellText = oCell.Range
                   		' Remove table cell markers from the text.
                   		sCellText = Left$(sCellText, Len(sCellText) - 2)
+				excelCell = excelCell + 1
+                        	oxlWbk.ActiveSheet.Cells(excelRow, excelCell).Value = sCellText
+
    
      			Next oCell
    		Next oRow    
 	Next
-
+	oxlWbk.Save
+	MsgBox "End of the script"
 
 
  ErrorHandler:
