@@ -1,3 +1,3 @@
 # vba_retrieveWordTables
 
-A VBA script that iterates all the tables of a word document in order to extract tables' values.
+A VBA script that iterates over the tables of a Word document and extract its table values to a row in an excel file
