@@ -1,0 +1,44 @@
+
+Sub RetrieveWordTableItems()
+	Dim oRow As Row
+	Dim oCell As Cell
+	Dim sCellText As String
+	Dim II
+	'---  error handler
+   	On Error GoTo ErrorHandler
+
+
+
+
+	count_tbl = ActiveDocument.Tables.Count
+	'--- loop through all the tables in the Word document
+	II = 1
+	For II = 1 To count_tbl
+
+
+		'---- go through each row in the table.
+   		For Each oRow In ActiveDocument.Tables(II).Rows
+   
+   			'--- go throu each cell of the row
+      			For Each oCell In oRow.Cells
+                 
+                  		sCellText = oCell.Range
+                  		' Remove table cell markers from the text.
+                  		sCellText = Left$(sCellText, Len(sCellText) - 2)
+   
+     			Next oCell
+   		Next oRow    
+	Next
+
+
+
+ ErrorHandler:
+   If Err <> 0 Then
+      Dim Msg As String
+      Msg = "Error # " & Str(Err.Number) & Chr(13) & Err.Description _
+         & Chr(13) & "Make sure there is a table in the current document."
+        MsgBox Msg, , "Error"
+   End If
+
+End Sub
+
